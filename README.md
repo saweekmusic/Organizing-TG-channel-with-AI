@@ -1,5 +1,4 @@
 # SLife AI in Telegram
-ORGANISING ALL THE MESSAGES BY TAGS USING AI
 
 ## Introduction
 This is my step-by-step expiriment on how I have integrated AI into my everyday life.
@@ -34,7 +33,7 @@ Hugging Face's Transformers and Torch (aka. PyTorch).
 
 Installation is as simple as it can be:
 ```bash
-pip3 install transformers torch
+pip install transformers torch
 ```
 
 #### Tesing
@@ -42,7 +41,7 @@ Run a quick test to check if BERT is installed properly:
 ```python
 from transformers import pipeline
 
-nlp = pipeline("text-classification", model="bert-base-uncased")
+nlp = pipeline("text-classification", model = "bert-base-uncased")
 print(nlp("Testing BERT installation!"))
 ```
 
