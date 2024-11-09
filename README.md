@@ -41,7 +41,7 @@ Run a quick test to check if BERT is installed properly:
 ```python
 from transformers import pipeline
 
-fnlp = pipeline("text-classification", model = "bert-base-uncased")
+nlp = pipeline("text-classification", model = "bert-base-uncased")
 print(nlp("Testing BERT installation!"))
 ```
 
