@@ -36,6 +36,12 @@ Installation is as simple as it can be:
 pip install transformers torch
 ```
 
+> [!Tip]
+> For better performance on macOS, you can use Apple’s Metal Performance Shaders if you’re running an M1 or M2 Mac. To install PyTorch optimized for Metal, use:
+> ```bash
+> pip install torch torchvision torchaudio -f https://download.pytorch.org/whl/metal.html
+> ```
+
 #### Tesing
 Run a quick test to check if BERT is installed properly:
 ```python
@@ -45,12 +51,28 @@ nlp = pipeline("text-classification", model = "bert-base-uncased")
 print(nlp("Testing BERT installation!"))
 ```
 
-> [!Tip]
-> For better performance on macOS, you can use Apple’s Metal Performance Shaders if you’re running an M1 or M2 Mac. To install PyTorch optimized for Metal, use:
-> ```bash
-> pip install torch torchvision torchaudio -f https://download.pytorch.org/whl/metal.html
-> ```
+If everything went well, after printing the last line, you will get something like:
+```[{'label': 'LABEL_0', 'score': 0.6314278244972229}]``` and that is excactly what we need. Label is basically a tag and the score — is how sure BERT is about the input fitting to the lable. If you see something like that, it means you have successfully installed BERT. 
 
 ### EfficientNet (Image Model)
+Reason: EfficientNet is good for mobile and small-scale applications, so it’s great for running on your laptop or PC.
+
+#### Installing
+```bash
+pip install tensorflow
+```
 
 ### Whisper (Audio Model) by OpenAI
+
+
+from transformers import AutoFeatureExtractor, AutoModelForImageClassification
+from PIL import Image
+import requests
+model_name = "google/efficientnet-b0"
+extractor = AutoFeatureExtractor.from_pretrained(model_name)
+model = AutoModelForImageClassification.from_pretrained(model_name)
+url = "https://www.andrewshoemaker.com/images/640/secret-glow-maui-beach-sunset.jpg"
+image = Image.open(requests.get(url, stream=True).raw)
+inputs = extractor(images=image, return_tensors="pt")
+outputs = model(**inputs)
+print(outputs)
