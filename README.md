@@ -51,8 +51,6 @@ print(nlp("Testing BERT installation!"))
 > pip install torch torchvision torchaudio -f https://download.pytorch.org/whl/metal.html
 > ```
 
-But of course there are no problems. When I tried to install torch, it showed me an error, that it couldn't find a version or something, so I needed to do it manually. I went online to search for how to do it manually and found this web site https://pypi.org/project/torch/#installation and I started. But then I needed to downlaod one more script, conda (have never heard about it), so I started searching for it, but there were so many error, and it all took soooo much time. And now I did all above and installing torch like this is a VERY long process. So make yourself some coffee and go watch a series.
-
 ### EfficientNet (Image Model)
 
 ### Whisper (Audio Model) by OpenAI
