@@ -54,13 +54,15 @@ print(nlp("Testing BERT installation!"))
 If everything went well, after printing the last line, you will get something like:
 ```[{'label': 'LABEL_0', 'score': 0.6314278244972229}]``` and that is excactly what we need. Label is basically a tag and the score — is how sure BERT is about the input fitting to the lable. If you see something like that, it means you have successfully installed BERT. 
 
-### EfficientNet (Image Model)
+### EfficientNet (Image Model) ---- not
 Reason: EfficientNet is good for mobile and small-scale applications, so it’s great for running on your laptop or PC.
 
 #### Installing
 ```bash
 pip install tensorflow
 ```
+
+### Swin Transformers
 
 ### Whisper (Audio Model) by OpenAI
 
