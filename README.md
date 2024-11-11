@@ -61,20 +61,51 @@ To use ST (Swin Transformers) we need to install one more library that provides 
 ```bash
 pip install timm
 ```
+#### Testing
+And now lets see how it will work:
 
-It has ST model within it self
-
-### Whisper (Audio Model) by OpenAI
-
-
-from transformers import AutoFeatureExtractor, AutoModelForImageClassification
-from PIL import Image
+```python
 import requests
-model_name = "google/efficientnet-b0"
-extractor = AutoFeatureExtractor.from_pretrained(model_name)
-model = AutoModelForImageClassification.from_pretrained(model_name)
-url = "https://www.andrewshoemaker.com/images/640/secret-glow-maui-beach-sunset.jpg"
-image = Image.open(requests.get(url, stream=True).raw)
-inputs = extractor(images=image, return_tensors="pt")
-outputs = model(**inputs)
-print(outputs)
+from PIL import Image
+from io import BytesIO
+from torchvision import transforms
+import torch
+import timm
+import json
+
+# 1. Load image from URL
+url = "https://example.com/your_image.jpg"  # Replace with your image URL
+response = requests.get(url)
+img = Image.open(BytesIO(response.content)).convert("RGB")
+
+# 2. Preprocess image
+preprocess = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+])
+input_tensor = preprocess(img).unsqueeze(0)  # Add batch dimension
+
+# 3. Load Swin Transformer model
+model = timm.create_model('swin_base_patch4_window7_224', pretrained=True)
+model.eval()
+
+# 4. Run inference
+with torch.no_grad():
+    output = model(input_tensor)
+
+# 5. Load class labels for ImageNet
+labels_url = "https://raw.githubusercontent.com/anishathalye/imagenet-simple-labels/master/imagenet-simple-labels.json"
+labels_response = requests.get(labels_url)
+labels = json.loads(labels_response.text)
+
+# 6. Get top 5 predictions
+probabilities = torch.nn.functional.softmax(output[0], dim=0)
+top5_prob, top5_catid = torch.topk(probabilities, 5)
+
+# 7. Print the results
+for i in range(top5_prob.size(0)):
+    print(f"{labels[top5_catid[i]]}: {top5_prob[i].item() * 100:.2f}%")
+
+```
+### Whisper (Audio Model) by OpenAI
